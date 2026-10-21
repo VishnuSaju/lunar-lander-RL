@@ -1,20 +1,6 @@
 import gymnasium as gym
-import time
-env=gym.make("LunarLander-v3",render_mode="human")
-observation, info = env.reset()
-print("Game started!")
-print("Initial observation:", observation)
+from stable_baselines3 import PPO  
+env=gym.make("LunarLander-v3")
+lunar_model=PPO("MlpPolicy",env,verbose=1)
+lunar_model.learn(total_timesteps=100_000)#100000 and 100_000 is identical python allows to use _ in nummeric strings to improve readability for large numbers
 
-#input("Press Enter in this terminal to close the game...")
-for _ in range(300):
-    observation, reward, terminated, truncated, info = env.step(0)
-    print("Reward:", reward)
-    print("terminated:",terminated)
-    print("truncated:",truncated)
-    env.render()
-    time.sleep(1 / 60)
-    if terminated or truncated:
-        break
-
-env.close()
-print("Game closed.")
